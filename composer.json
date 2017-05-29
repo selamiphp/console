@@ -1,0 +1,27 @@
+{
+    "name": "mkorkmaz/console",
+    "description": "Creating Console Application library on top of Symfony Console",
+    "type": "library",
+    "require": {
+        "symfony/console": "^3.2",
+        "psr/container": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "zendframework/zend-servicemanager": "^3.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mehmet Korkmaz",
+            "email": "mehmet@mkorkmaz.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Selami\\": "src"
+        },
+        "files": ["src/functions.php"]
+    }
+}
