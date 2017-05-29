@@ -23,5 +23,10 @@
             "Selami\\": "src"
         },
         "files": ["src/functions.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SelamiConsoleTest\\": "tests/resources/"
+        }
     }
 }

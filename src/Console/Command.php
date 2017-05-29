@@ -4,23 +4,24 @@ declare(strict_types=1);
 namespace Selami\Console;
 
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 use Psr\Container\ContainerInterface;
 
 class Command extends SymfonyCommand
 {
-    /**
-     * ContainerInterface
-     * @var
-     */
-    private $container;
+    protected $container;
 
-    public function __construct(?string $name)
+    public function __construct(string $name=null)
     {
         parent::__construct($name);
-        $this->setContainer();
     }
-    private function setContainer() : void
+
+    protected function initialize(InputInterface $input, OutputInterface $output) : void
     {
-        $this->container = $this->getHelper('container');
+        $helperSet = $this->getApplication()->getHelperSet();
+        $helper = $helperSet->get(ContainerInterface::class);
+        $this->container =  $helper->getContainer();
     }
 }
