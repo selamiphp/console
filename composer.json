@@ -1,5 +1,5 @@
 {
-    "name": "mkorkmaz/console",
+    "name": "selami/console",
     "description": "Creating Console Application library on top of Symfony Console",
     "type": "library",
     "require": {
