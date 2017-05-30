@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;
 
 class ApplicationFactory
 {
-    static public function makeApplication(ContainerInterface $container, ?string $name, ?string $version) : Application
+    static public function makeApplication(ContainerInterface $container, string $name=null, string $version=null) : Application
     {
         /**
          * @var  array $commands
