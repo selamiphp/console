@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+require_once (__DIR__ . '/../../vendor/autoload.php');
+require_once (__DIR__ . '/../../tests/resources/Command/OrdinaryCommand.php');
+
+use Selami\Console\ApplicationFactory;
+use Zend\ServiceManager\ServiceManager;
+
+$container = new ServiceManager();
+$container->setService(
+    'commands', [
+        SelamiConsoleTest\Command\OrdinaryCommand::class
+    ]
+);
+$container->setService('config', ['lang' => 'English']);
+
+$cli = ApplicationFactory::makeApplication($container);
+$cli->run();
