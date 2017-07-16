@@ -4,6 +4,7 @@
     "type": "library",
     "require": {
         "php": "^7.1",
+        "selami/stdlib": "^1.2",
         "symfony/console": "^3.2",
         "psr/container": "^1.0"
     },
@@ -23,9 +24,8 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Selami\\": "src"
-        },
-        "files": ["src/functions.php"]
+            "Selami\\Console\\": "src/Console"
+        }
     },
     "autoload-dev": {
         "psr-4": {
