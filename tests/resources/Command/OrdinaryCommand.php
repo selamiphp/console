@@ -29,7 +29,7 @@ class OrdinaryCommand extends Command
     {
         $this
             ->setName('command:ordinary')
-            ->setDescription('Show basic information about all mapped entities')
+            ->setDescription('Prints "Hello {config.greeting} {name}')
             ->setDefinition([
                 new InputArgument('name', InputArgument::REQUIRED),
             ]);
