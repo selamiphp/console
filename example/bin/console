@@ -17,7 +17,7 @@ $container->setService(
         SelamiConsoleTest\Command\OrdinaryCommand::class
     ]
 );
-$container->setService('config', ['cache' => '/tmp-8hasdb']);
+$container->setService('config', ['greeting' => 'Dear']);
 
 $cli = ApplicationFactory::makeApplication($container);
 $cli->run();

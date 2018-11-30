@@ -17,7 +17,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     {
     }
 
-    protected function successfulConsoleApp()
+    protected function successfulConsoleApp() : void
     {
         $container = new ServiceManager([
             'factories' => [
@@ -27,7 +27,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $container->setService(
             'config',
             [
-                'cache' => '/tmp/uRt48sl'
+                'greeting' => 'Dear'
             ]
         );
         $container->setService(
@@ -94,7 +94,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     public function shouldRunCommandSuccessfully() : void
     {
         $this->successfulConsoleApp();
-        $input = new ArrayInput(array('command'=>'command:ordinary', 'name' => 'world'));
+        $input = new ArrayInput(array('command '=> 'command:ordinary', 'name' => 'Kedibey'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
         $cli->setAutoExit(false);
         $this->assertEquals('TestApp', $cli->getName());
@@ -102,7 +102,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $output = new BufferedOutput();
         $cli->run($input, $output);
         $return  = $output->fetch();
-        $this->assertEquals('Hello world -/tmp/uRt48sl' . PHP_EOL, $return);
+        $this->assertEquals('Hello Dear Kedibey' . PHP_EOL, $return);
     }
 
     /**

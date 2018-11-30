@@ -35,10 +35,9 @@ class OrdinaryCommand extends Command
             ]);
     }
 
-
     protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         $name = $input->getArgument('name');
-        $output->writeln($this->printService->formatMessage($name) . ' -'. $this->config['cache']);
+        $output->writeln($this->printService->formatMessage($this->config['greeting'], $name));
     }
 }
