@@ -19,7 +19,7 @@ class ApplicationFactory
         string $version = '0.0.1'
     ) : Application {
         /**
-         * @var  array $commands
+         * @var array $commands
          */
         $commands = $container->get('commands');
         $cli = new Application($name, $version);
@@ -49,7 +49,6 @@ class ApplicationFactory
                 );
             }
             $reflectionClass = new ReflectionClass($command);
-
             /**
              * @var Command $autoWiredCommand
              */
