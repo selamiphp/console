@@ -68,7 +68,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OrdinaryCommand extends Command
+class GreetingCommand extends Command
 {
     /**
      * @var PrintService
@@ -126,7 +126,7 @@ $container = new ServiceManager(
 );
 $container->setService(
     'commands', [
-        MyConsoleApplication\Command\OrdinaryCommand::class
+        MyConsoleApplication\Command\GreetingCommand::class
     ]
 );
 $container->setService('config', ['greeting' => 'Dear']);
