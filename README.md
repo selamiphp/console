@@ -27,7 +27,7 @@ class PrintService
 {
     public function formatMessage(string $greeting, string $message) : string
     {
-        return 'Hello ' $greeting . ' ' . $message;
+        return 'Hello ' . $greeting . ' ' . $message;
     }
 }
 ```
