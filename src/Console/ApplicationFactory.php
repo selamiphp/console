@@ -8,7 +8,6 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Selami\Stdlib\Resolver;
 use ReflectionClass;
-use ReflectionException;
 use Selami\Console\Exception\DependencyNotFoundException;
 use Selami\Stdlib\Exception\ClassOrMethodCouldNotBeFound;
 
