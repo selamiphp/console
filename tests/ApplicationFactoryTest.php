@@ -1,48 +1,35 @@
-<?php
-declare(strict_types=1);
+<?php namespace SelamiConsoleTest;
 
-namespace tests;
-
-use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Selami\Console;
 use Zend\ServiceManager\ServiceManager;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Helper\HelperSet;
-use Selami\Console\ContainerHelper;
-use stdClass;
 use SelamiConsoleTest;
-use InvalidArgumentException;
 
-class MySelamiConsoleLibrary extends TestCase
+class ApplicationFactoryTest extends \Codeception\Test\Unit
 {
-    protected $container;
-
-    public function setUp() : void
+    private $container;
+    protected function _before()
     {
         $container = new ServiceManager();
         $container->setService(
-            'commands', [
+            'commands',
+            [
                 SelamiConsoleTest\Command\OrdinaryCommand::class
             ]
         );
-        $container->setService('config', ['lang' => 'English']);
+        $container->setService(
+            'dependencies',
+            [
+                SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Service\PrintService::class
+            ]
+        );
         $this->container = $container;
     }
 
-    /**
-     * @test
-     */
-    public function shouldReturnHelperSetSuccessfully() : void
+    protected function _after()
     {
-        $helperSet = new HelperSet([ContainerInterface::class => new ContainerHelper($this->container)]);
-        $helper = $helperSet->get(ContainerInterface::class);
-        $this->assertEquals('containerHelper', $helper->getName());
-        $container = $helper->getContainer();
-        $this->assertInstanceOf(ContainerInterface::class, $container);
     }
 
     /**
@@ -67,8 +54,6 @@ class MySelamiConsoleLibrary extends TestCase
             $return = fread($fp, 4096);
         }
         fclose($fp);
-        $this->assertEquals('Hello world in English', $return);
+        $this->assertEquals('Hello world', $return);
     }
-
-
 }
