@@ -118,13 +118,13 @@ use Zend\ServiceManager\ServiceManager;
 $container = new ServiceManager(
 	[
     	'factories' => [
-        	SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Factory\PrintServiceFactory::class
+        	MyConsoleApplication\Service\PrintService::class => MyConsoleApplication\Factory\PrintServiceFactory::class
     	]
 	]
 );
 $container->setService(
     'commands', [
-        SelamiConsoleTest\Command\OrdinaryCommand::class
+        MyConsoleApplication\Command\OrdinaryCommand::class
     ]
 );
 $container->setService('config', ['greeting' => 'Dear']);
