@@ -103,7 +103,6 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $output = new BufferedOutput();
         $cli->run($input, $output);
         $return  = $output->fetch();
-        var_dump($return);
         $this->assertEquals('Hello Dear Kedibey' . PHP_EOL, $return);
     }
 

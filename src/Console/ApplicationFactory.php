@@ -28,17 +28,7 @@ class ApplicationFactory
             'version' => $version
         ];
         foreach ($commands as $command) {
-            try {
-                $controllerConstructorArguments = Resolver::getParameterHints($command, '__construct');
-            } catch (ClassOrMethodCouldNotBeFound $e) {
-                throw new DependencyNotFoundException(
-                    sprintf(
-                        '%s when calling command: %s',
-                        $e->getMessage(),
-                        $command
-                    )
-                );
-            }
+            $controllerConstructorArguments = self::getControllerConstructorArguments($command);
             $arguments = [];
             foreach ($controllerConstructorArguments as $argumentName => $argumentType) {
                 $arguments[] = self::getArgument(
@@ -56,6 +46,21 @@ class ApplicationFactory
             $cli->add($autoWiredCommand);
         }
         return $cli;
+    }
+
+    private static function getControllerConstructorArguments($command): ?array
+    {
+        try {
+            return Resolver::getParameterHints($command, '__construct');
+        } catch (ClassOrMethodCouldNotBeFound $e) {
+            throw new DependencyNotFoundException(
+                sprintf(
+                    '%s when calling command: %s',
+                    $e->getMessage(),
+                    $command
+                )
+            );
+        }
     }
 
     private static function getArgument(
