@@ -25,9 +25,9 @@ namespace MyConsoleApplication\Service;
 
 class PrintService
 {
-    public function formatMessage(string $message) : string
+    public function formatMessage(string $greeting, string $message) : string
     {
-        return 'Hello ' . $message;
+        return 'Hello ' $greeting . ' ' . $message;
     }
 }
 ```
