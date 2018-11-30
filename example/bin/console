@@ -7,14 +7,17 @@ require_once (__DIR__ . '/../../tests/resources/Command/OrdinaryCommand.php');
 
 use Selami\Console\ApplicationFactory;
 use Zend\ServiceManager\ServiceManager;
-
-$container = new ServiceManager();
+$container = new ServiceManager([
+    'factories' => [
+        SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Factory\PrintServiceFactory::class
+    ]
+]);
 $container->setService(
     'commands', [
         SelamiConsoleTest\Command\OrdinaryCommand::class
     ]
 );
-$container->setService('config', ['lang' => 'English']);
+$container->setService('config', ['cache' => '/tmp-8hasdb']);
 
 $cli = ApplicationFactory::makeApplication($container);
 $cli->run();
