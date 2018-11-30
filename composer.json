@@ -1,6 +1,6 @@
 {
     "name": "selami/console",
-    "description": " Symfony Console application factory that autowires dependecies",
+    "description": "Symfony Console application factory that autowires dependecies",
     "type": "library",
     "require": {
         "php": "^7.2",
