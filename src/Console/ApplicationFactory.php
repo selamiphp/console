@@ -5,11 +5,12 @@ namespace Selami\Console;
 
 use Symfony\Component\Console\Application;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Command\Command;
 use Selami\Stdlib\Resolver;
 use ReflectionClass;
 use ReflectionException;
-use InvalidArgumentException;
-use Symfony\Component\Console\Command\Command;
+use Selami\Console\Exception\DependencyNotFoundException;
+use Selami\Stdlib\Exception\ClassOrMethodCouldNotBeFound;
 
 class ApplicationFactory
 {
@@ -28,7 +29,17 @@ class ApplicationFactory
             'version' => $version
         ];
         foreach ($commands as $command) {
-            $controllerConstructorArguments = Resolver::getParameterHints($command, '__construct');
+            try {
+                $controllerConstructorArguments = Resolver::getParameterHints($command, '__construct');
+            } catch (ClassOrMethodCouldNotBeFound $e) {
+                throw new DependencyNotFoundException(
+                    sprintf(
+                        '%s when calling command: %s',
+                        $e->getMessage(),
+                        $command
+                    )
+                );
+            }
             $arguments = [];
             foreach ($controllerConstructorArguments as $argumentName => $argumentType) {
                 $arguments[] = self::getArgument(
@@ -38,11 +49,8 @@ class ApplicationFactory
                     $argumentType
                 );
             }
-            try {
-                $reflectionClass = new ReflectionClass($command);
-            } catch (ReflectionException $exception) {
-                throw new InvalidArgumentException($exception->getMessage());
-            }
+            $reflectionClass = new ReflectionClass($command);
+
             /**
              * @var Command $autoWiredCommand
              */
@@ -62,17 +70,12 @@ class ApplicationFactory
             return $consoleApplicationArguments[$argumentName];
         }
         if ($argumentType === Resolver::ARRAY && $container->has($argumentName) === false) {
-            throw new InvalidArgumentException(
-                sprintf('Container does not have item for array: %s', $argumentName)
+            throw new DependencyNotFoundException(
+                sprintf('Container does not have an item for array: %s', $argumentName)
             );
         }
         if ($argumentType === Resolver::ARRAY) {
             return $container->get($argumentName);
-        }
-        if ($container->has($argumentType) === false) {
-            throw new InvalidArgumentException(
-                sprintf('Container does not have item for service: %s', $argumentType)
-            );
         }
         return $container->get($argumentType);
     }

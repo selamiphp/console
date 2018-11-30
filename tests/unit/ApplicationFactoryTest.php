@@ -15,17 +15,70 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
-        $container = new ServiceManager(
+    }
+
+    protected function successfulConsoleApp()
+    {
+        $container = new ServiceManager([
+            'factories' => [
+                SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Factory\PrintServiceFactory::class
+            ]
+        ]);
+        $container->setService(
+            'config',
             [
-                'factories' => [
-                        SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Factory\PrintServiceFactory::class
-                ]
+                'cache' => '/tmp/uRt48sl'
             ]
         );
         $container->setService(
             'commands',
             [
                 SelamiConsoleTest\Command\OrdinaryCommand::class
+            ]
+        );
+        $this->container = $container;
+    }
+
+    protected function failedConsoleApp() : void
+    {
+        $container = new ServiceManager([
+            'factories' => [
+                SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Factory\PrintServiceFactory::class
+            ]
+        ]);
+        $container->setService(
+            'config',
+            [
+                'cache' => '/tmp/uRt48sl'
+            ]
+        );
+        $container->setService(
+            'commands',
+            [
+                SelamiConsoleTest\Command\OrdinaryCommand::class,
+                SelamiConsoleTest\Command\OrdinaryCommandWithArrayDependency::class,
+            ]
+        );
+        $this->container = $container;
+    }
+    protected function failedForNonExistingServiceConsoleApp() : void
+    {
+        $container = new ServiceManager([
+            'factories' => [
+                SelamiConsoleTest\Service\PrintService::class => SelamiConsoleTest\Factory\PrintServiceFactory::class
+            ]
+        ]);
+        $container->setService(
+            'config',
+            [
+                'cache' => '/tmp/uRt48sl'
+            ]
+        );
+        $container->setService(
+            'commands',
+            [
+                SelamiConsoleTest\Command\OrdinaryCommand::class,
+                SelamiConsoleTest\Command\OrdinaryCommandWithServiceDependency::class,
             ]
         );
         $this->container = $container;
@@ -40,6 +93,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
      */
     public function shouldRunCommandSuccessfully() : void
     {
+        $this->successfulConsoleApp();
         $input = new ArrayInput(array('command'=>'command:ordinary', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
         $cli->setAutoExit(false);
@@ -48,6 +102,52 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $output = new BufferedOutput();
         $cli->run($input, $output);
         $return  = $output->fetch();
-        $this->assertEquals('Hello world', $return);
+        $this->assertEquals('Hello world -/tmp/uRt48sl', $return);
+    }
+
+    /**
+     * @test
+     * @expectedException \Selami\Console\Exception\DependencyNotFoundException
+     */
+    public function shouldFailNonExistingArrayDependency() : void
+    {
+        $this->failedConsoleApp();
+        $input = new ArrayInput(array('command'=>'command:ordinary-with-array-dependency', 'name' => 'world'));
+        $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
+        $cli->setAutoExit(false);
+        $this->assertEquals('TestApp', $cli->getName());
+        $this->assertEquals('1.0.1', $cli->getVersion());
+        $output = new BufferedOutput();
+        $cli->run($input, $output);
+    }
+    /**
+     * @test
+     * @expectedException \Selami\Console\Exception\DependencyNotFoundException
+     */
+    public function shouldFailNonExistingServiceDependency() : void
+    {
+        $this->failedForNonExistingServiceConsoleApp();
+        $input = new ArrayInput(array('command'=>'command:ordinary-with-service-dependency', 'name' => 'world'));
+        $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
+        $cli->setAutoExit(false);
+        $this->assertEquals('TestApp', $cli->getName());
+        $this->assertEquals('1.0.1', $cli->getVersion());
+        $output = new BufferedOutput();
+        $cli->run($input, $output);
+    }
+    /**
+     * @testw
+     * @expectedExfception \Selami\Console\Exception\DependencyNotFoundException
+     */
+    public function shouldFailNonExistingSCommandDependency() : void
+    {
+        $this->failedForNonExistingServiceConsoleApp();
+        $input = new ArrayInput(array('command'=>'command:ordinary-with-service-dependency', 'name' => 'world'));
+        $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
+        $cli->setAutoExit(false);
+        $this->assertEquals('TestApp', $cli->getName());
+        $this->assertEquals('1.0.1', $cli->getVersion());
+        $output = new BufferedOutput();
+        $cli->run($input, $output);
     }
 }

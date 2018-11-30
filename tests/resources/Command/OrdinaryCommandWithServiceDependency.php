@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace SelamiConsoleTest\Command;
 
-use SelamiConsoleTest\Service\PrintService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OrdinaryCommand extends Command
+class OrdinaryCommandWithServiceDependency extends Command
 {
     /**
-     * @var PrintService
+     * @var NonExistingPrintService
      */
     private $printService;
     private $config;
 
-    public function __construct(PrintService $printService, array $config, string $name = null)
+    public function __construct(NonExistingPrintService $printService, string $name = null)
     {
         $this->printService = $printService;
         $this->config = $config;
@@ -28,7 +27,7 @@ class OrdinaryCommand extends Command
     protected function configure() : void
     {
         $this
-            ->setName('command:ordinary')
+            ->setName('command:ordinary-with-service-dependency')
             ->setDescription('Show basic information about all mapped entities')
             ->setDefinition([
                 new InputArgument('name', InputArgument::REQUIRED),
