@@ -84,7 +84,7 @@ class OrdinaryCommand extends Command
     protected function configure() : void
     {
         $this
-            ->setName('command:ordinary')
+            ->setName('command:greeting')
             ->setDescription('Prints "Hello {config.greeting} {name}')
             ->setDefinition([
                 new InputArgument('name', InputArgument::REQUIRED),
@@ -136,6 +136,6 @@ $cli->run();
 ### 6. Run your command on terminal
 
 ```bash
-./bin/console command:ordinary Kedibey
+./bin/console command:greeting Kedibey
 ```
 Outputs: Hello Dear Kedibey

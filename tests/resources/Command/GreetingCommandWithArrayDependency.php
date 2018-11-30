@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OrdinaryCommand extends Command
+class GreetingCommandWithArrayDependency extends Command
 {
     /**
      * @var PrintService
@@ -18,7 +18,7 @@ class OrdinaryCommand extends Command
     private $printService;
     private $config;
 
-    public function __construct(PrintService $printService, array $config, string $name = null)
+    public function __construct(PrintService $printService, array $args, string $name = null)
     {
         $this->printService = $printService;
         $this->config = $config;
@@ -28,16 +28,17 @@ class OrdinaryCommand extends Command
     protected function configure() : void
     {
         $this
-            ->setName('command:ordinary')
-            ->setDescription('Prints "Hello {config.greeting} {name}')
+            ->setName('command:ordinary-with-array-dependency')
+            ->setDescription('Show basic information about all mapped entities')
             ->setDefinition([
                 new InputArgument('name', InputArgument::REQUIRED),
             ]);
     }
 
+
     protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         $name = $input->getArgument('name');
-        $output->writeln($this->printService->formatMessage($this->config['greeting'], $name));
+        $output->write($this->printService->formatMessage($name) . ' -'. $this->config['cache']);
     }
 }

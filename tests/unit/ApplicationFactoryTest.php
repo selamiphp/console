@@ -33,7 +33,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $container->setService(
             'commands',
             [
-                SelamiConsoleTest\Command\OrdinaryCommand::class
+                SelamiConsoleTest\Command\GreetingCommand::class
             ]
         );
         $this->container = $container;
@@ -49,18 +49,19 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $container->setService(
             'config',
             [
-                'cache' => '/tmp/uRt48sl'
+                'greeting' => 'Dear'
             ]
         );
         $container->setService(
             'commands',
             [
-                SelamiConsoleTest\Command\OrdinaryCommand::class,
-                SelamiConsoleTest\Command\OrdinaryCommandWithArrayDependency::class,
+                SelamiConsoleTest\Command\GreetingCommand::class,
+                SelamiConsoleTest\Command\GreetingCommandWithArrayDependency::class,
             ]
         );
         $this->container = $container;
     }
+    
     protected function failedForNonExistingServiceConsoleApp() : void
     {
         $container = new ServiceManager([
@@ -77,8 +78,8 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
         $container->setService(
             'commands',
             [
-                SelamiConsoleTest\Command\OrdinaryCommand::class,
-                SelamiConsoleTest\Command\OrdinaryCommandWithServiceDependency::class,
+                SelamiConsoleTest\Command\GreetingCommand::class,
+                SelamiConsoleTest\Command\GreetingCommandWithServiceDependency::class,
             ]
         );
         $this->container = $container;
@@ -94,14 +95,15 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     public function shouldRunCommandSuccessfully() : void
     {
         $this->successfulConsoleApp();
-        $input = new ArrayInput(array('command '=> 'command:ordinary', 'name' => 'Kedibey'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
         $cli->setAutoExit(false);
         $this->assertEquals('TestApp', $cli->getName());
         $this->assertEquals('1.0.1', $cli->getVersion());
+        $input = new ArrayInput(['command'=> 'command:greeting', 'name' => 'Kedibey']);
         $output = new BufferedOutput();
         $cli->run($input, $output);
         $return  = $output->fetch();
+        var_dump($return);
         $this->assertEquals('Hello Dear Kedibey' . PHP_EOL, $return);
     }
 
@@ -112,7 +114,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     public function shouldFailNonExistingArrayDependency() : void
     {
         $this->failedConsoleApp();
-        $input = new ArrayInput(array('command'=>'command:ordinary-with-array-dependency', 'name' => 'world'));
+        $input = new ArrayInput(array('command'=>'command:greeting-with-array-dependency', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
         $cli->setAutoExit(false);
         $this->assertEquals('TestApp', $cli->getName());
@@ -127,7 +129,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     public function shouldFailNonExistingServiceDependency() : void
     {
         $this->failedForNonExistingServiceConsoleApp();
-        $input = new ArrayInput(array('command'=>'command:ordinary-with-service-dependency', 'name' => 'world'));
+        $input = new ArrayInput(array('command'=>'command:greeting-with-service-dependency', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
         $cli->setAutoExit(false);
         $this->assertEquals('TestApp', $cli->getName());
@@ -142,7 +144,7 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     public function shouldFailNonExistingSCommandDependency() : void
     {
         $this->failedForNonExistingServiceConsoleApp();
-        $input = new ArrayInput(array('command'=>'command:ordinary-with-service-dependency', 'name' => 'world'));
+        $input = new ArrayInput(array('command'=>'command:greeting-with-service-dependency', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
         $cli->setAutoExit(false);
         $this->assertEquals('TestApp', $cli->getName());
