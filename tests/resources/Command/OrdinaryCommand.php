@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SelamiConsoleTest\Command;
 
-use SelamiTest\Service\PrintService;
+use SelamiConsoleTest\Service\PrintService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,11 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class OrdinaryCommand extends Command
 {
+    /**
+     * @var PrintService
+     */
+    private $printService;
 
     public function __construct(PrintService $printService, string $name = null)
     {
-        $this->printService=$printService;
-
+        $this->printService = $printService;
         parent::__construct($name);
     }
 
@@ -34,6 +37,6 @@ class OrdinaryCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         $name = $input->getArgument('name');
-        $output->write('Hello '.$name);
+        $output->write($this->printService->formatMessage($name));
     }
 }

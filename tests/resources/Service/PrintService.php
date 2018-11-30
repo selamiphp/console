@@ -9,8 +9,8 @@ class PrintService
     {
     }
 
-    public function print(string $message) : void
+    public function formatMessage(string $message) : string
     {
-        echo $message . PHP_EOL;
+        return 'Hello ' . $message;
     }
 }
