@@ -9,6 +9,7 @@ pipeline {
     stage('Clone repository') {
       steps {
         git(url: 'https://github.com/selamiphp/console.git', branch: 'master')
+        sh 'pecl install xdebug'
       }
     }
     stage('install') {
