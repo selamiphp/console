@@ -8,7 +8,15 @@ pipeline {
             git(url: 'https://github.com/selamiphp/console.git', branch: 'master')
           }
         }
-        stage('run redis') {
+        stage('get composer') {
+          steps {
+            sh 'curl -sS https://getcomposer.org/installer | php'
+            sh 'mv composer.phar /usr/local/bin/composer'
+          }
+        }
+        
+        
+        stage('run composer') {
           steps {
             sh 'composer install'
           }
