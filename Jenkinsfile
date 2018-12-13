@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'phpdockerio/php72-fpm'
+      image 'phpdockerio/php72-cli'
     }
 
   }
