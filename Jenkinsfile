@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'phpdockerio/php72-cli',
+      image 'phpdockerio/php72-cli'
     }
 
   }
@@ -20,6 +20,7 @@ pipeline {
         }
         stage('test') {
           steps {
+            sh 'ls -la'
             sh 'composer run unit-tests'
           }
         }
