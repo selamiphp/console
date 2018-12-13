@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    node {
-      label 'php'
-    }
-
-  }
+  agent any
   stages {
     stage('Get files') {
       parallel {
