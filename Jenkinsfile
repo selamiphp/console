@@ -1,22 +1,16 @@
 pipeline {
   agent {
     docker {
-      image 'phpdockerio/php72-cli'
+      image 'phpdockerio/php72-cli',
     }
 
   }
   stages {
     stage('Get files') {
       parallel {
-        stage('Get files') {
+        stage('Clone repository') {
           steps {
             git(url: 'https://github.com/selamiphp/console.git', branch: 'master')
-          }
-        }
-        stage('get composer') {
-          steps {
-            sh 'curl -sS https://getcomposer.org/installer | php'
-            sh 'mv composer.phar /usr/local/bin/composer'
           }
         }
         stage('run composer') {

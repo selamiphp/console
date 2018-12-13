@@ -140,4 +140,4 @@ $cli->run();
 ```bash
 ./bin/console command:greeting Kedibey
 ```
-Outputs: Hello Dear Kedibey
+Prints: Hello Dear Kedibey
