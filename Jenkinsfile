@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'phpdockerio/php72-fpm'
+    }
+
+  }
   stages {
     stage('Get files') {
       parallel {
@@ -14,8 +19,6 @@ pipeline {
             sh 'mv composer.phar /usr/local/bin/composer'
           }
         }
-        
-        
         stage('run composer') {
           steps {
             sh 'composer install'
