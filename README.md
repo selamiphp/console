@@ -8,7 +8,7 @@ Symfony Console application factory that autowires dependecies. Use any PSR-11 c
 ## Installation
 
 ```bash
-composer install selami/console
+composer require selami/console
 ```
 
 ## Usage
