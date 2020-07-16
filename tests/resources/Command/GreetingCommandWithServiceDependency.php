@@ -17,7 +17,7 @@ class GreetingCommandWithServiceDependency extends Command
     private $printService;
     private $config;
 
-    public function __construct(NonExistingPrintService $printService, string $name = null)
+    public function __construct(NonExistingPrintService $printService, array $config, string $name = null)
     {
         $this->printService = $printService;
         $this->config = $config;

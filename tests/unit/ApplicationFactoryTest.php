@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SelamiConsoleTest;
 
 use Selami\Console;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use SelamiConsoleTest;
@@ -108,10 +108,10 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
 
     /**
      * @test
-     * @expectedException \Selami\Console\Exception\DependencyNotFoundException
      */
     public function shouldFailNonExistingArrayDependency() : void
     {
+        $this->expectException(Console\Exception\DependencyNotFoundException::class);
         $this->failedConsoleApp();
         $input = new ArrayInput(array('command'=>'command:greeting-with-array-dependency', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
@@ -123,10 +123,10 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     }
     /**
      * @test
-     * @expectedException \Selami\Console\Exception\DependencyNotFoundException
      */
     public function shouldFailNonExistingServiceDependency() : void
     {
+        $this->expectException(Console\Exception\DependencyNotFoundException::class);
         $this->failedForNonExistingServiceConsoleApp();
         $input = new ArrayInput(array('command'=>'command:greeting-with-service-dependency', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');
@@ -138,10 +138,11 @@ class ApplicationFactoryTest extends \Codeception\Test\Unit
     }
     /**
      * @testw
-     * @expectedExfception \Selami\Console\Exception\DependencyNotFoundException
      */
     public function shouldFailNonExistingSCommandDependency() : void
     {
+        $this->expectException(Console\Exception\DependencyNotFoundException::class);
+
         $this->failedForNonExistingServiceConsoleApp();
         $input = new ArrayInput(array('command'=>'command:greeting-with-service-dependency', 'name' => 'world'));
         $cli = Console\ApplicationFactory::makeApplication($this->container, 'TestApp', '1.0.1');

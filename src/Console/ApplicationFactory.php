@@ -69,6 +69,7 @@ class ApplicationFactory
         string $argumentName,
         string $argumentType
     ) {
+
         if (array_key_exists($argumentName, $consoleApplicationArguments)) {
             return $consoleApplicationArguments[$argumentName];
         }

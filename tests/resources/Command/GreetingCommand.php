@@ -35,9 +35,10 @@ class GreetingCommand extends Command
             ]);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : void
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $name = $input->getArgument('name');
         $output->writeln($this->printService->formatMessage($this->config['greeting'], $name));
+        return 1;
     }
 }

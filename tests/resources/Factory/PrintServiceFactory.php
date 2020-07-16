@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace SelamiConsoleTest\Factory;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 use SelamiConsoleTest\Service\PrintService;
 
