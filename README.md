@@ -8,7 +8,7 @@ Symfony Console application factory that autowires dependecies. Use any PSR-11 c
 ## Installation
 
 ```bash
-composer install selami/console
+composer require selami/console
 ```
 
 ## Usage
@@ -115,7 +115,7 @@ declare(strict_types=1);
 require_once ('path/to/vendor/autoload.php');
 
 use Selami\Console\ApplicationFactory;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager(
 	[
