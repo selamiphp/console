@@ -7,6 +7,7 @@ php:
 before_script:
   - composer install -n
 script:
+  - export XDEBUG_MODE=coverage
   - vendor/bin/codecept run unit --coverage --coverage-xml
 after_script:
   - if [ $TRAVIS_PHP_VERSION = '7.4' ]; then php vendor/bin/php-coveralls; fi
