@@ -3,7 +3,7 @@
     "description": "Symfony Console application factory that autowires dependecies",
     "type": "library",
     "require": {
-        "php": "^7.4",
+        "php": "^7.3 | ~8.0.0",
         "selami/stdlib": "^2.0",
         "symfony/console": "^v5.1",
         "psr/container": "^1.0"
