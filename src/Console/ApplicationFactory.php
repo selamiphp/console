@@ -10,6 +10,7 @@ use Selami\Stdlib\Resolver;
 use ReflectionClass;
 use Selami\Console\Exception\DependencyNotFoundException;
 use Selami\Stdlib\Exception\ClassOrMethodCouldNotBeFound;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 
 class ApplicationFactory
 {
@@ -52,7 +53,7 @@ class ApplicationFactory
     {
         try {
             return Resolver::getParameterHints($command, '__construct');
-        } catch (ClassOrMethodCouldNotBeFound $e) {
+        } catch (ClassOrMethodCouldNotBeFound|ServiceNotFoundException $e) {
             throw new DependencyNotFoundException(
                 sprintf(
                     '%s when calling command: %s',
@@ -81,6 +82,12 @@ class ApplicationFactory
         if ($argumentType === Resolver::ARRAY) {
             return $container->get($argumentName);
         }
-        return $container->get($argumentType);
+        try {
+            return $container->get($argumentType);
+        } catch (ServiceNotFoundException $exception) {
+            throw new DependencyNotFoundException(
+                sprintf('Container does not have an item service: %s', $argumentType)
+            );
+        }
     }
 }

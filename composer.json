@@ -3,20 +3,21 @@
     "description": "Symfony Console application factory that autowires dependecies",
     "type": "library",
     "require": {
-        "php": "^7.3 | ~8.0.0",
-        "selami/stdlib": "^2.0",
-        "symfony/console": "^v5.1",
-        "psr/container": "^1.0"
+        "php": "^8.0",
+        "selami/stdlib": "^2.5",
+        "symfony/console": "^v5.4.13",
+        "psr/container": "^1.1.2"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "codeception/codeception": "^4.1",
-        "php-coveralls/php-coveralls": "^2.1",
-        "laminas/laminas-servicemanager": "^3.3",
-        "object-calisthenics/phpcs-calisthenics-rules": "^3.4",
-        "squizlabs/php_codesniffer": "^3.3",
-        "codeception/module-phpbrowser": "^1.0",
-        "codeception/module-asserts": "^1.2"
+        "codeception/codeception": "^4.2.2",
+        "php-coveralls/php-coveralls": "^v2.5.3",
+        "laminas/laminas-servicemanager": "^3.17.0",
+        "squizlabs/php_codesniffer": "^3.7.1",
+        "codeception/module-phpbrowser": "^2.0.3",
+        "codeception/module-asserts": "^2.0.1",
+        "malukenho/mcbumpface": "^1.1.5",
+        "codeception/codeception-progress-reporter": "^4.0.5"
     },
     "license": "MIT",
     "authors": [
@@ -39,7 +40,12 @@
     "scripts": {
         "unit-tests": "vendor/bin/codecept run unit --coverage",
         "phpcs": "vendor/bin/phpcs --standard=PSR2 src tests",
-        "phpcbf": "vendor/bin/phpcbf --standard=PSR2 src tests",
-        "phpcs-object-calisthenics": "vendor/bin/phpcs src -sp --standard=vendor/object-calisthenics/phpcs-calisthenics-rules/src/ObjectCalisthenics/ruleset.xml"
+        "phpcbf": "vendor/bin/phpcbf --standard=PSR2 src tests"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "malukenho/mcbumpface": true
+        }
     }
 }
