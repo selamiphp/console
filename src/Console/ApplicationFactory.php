@@ -84,7 +84,7 @@ class ApplicationFactory
         }
         try {
             return $container->get($argumentType);
-        } catch (ServiceNotFoundException $exception) {
+        } catch (ServiceNotFoundException) {
             throw new DependencyNotFoundException(
                 sprintf('Container does not have an item service: %s', $argumentType)
             );
